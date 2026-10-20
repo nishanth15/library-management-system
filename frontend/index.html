@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraDesk | Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="dashboard">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">LIBRARY MANAGEMENT SYSTEM</p>
+                <h1>LibraDesk</h1>
+                <p class="subtitle">Your library, organised.</p>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p>Total titles</p>
+                <h2 id="totalBooks">0</h2>
+                <span>Books in catalogue</span>
+            </article>
+            <article class="stat-card">
+                <p>Total copies</p>
+                <h2 id="totalCopies">0</h2>
+                <span>Including borrowed copies</span>
+            </article>
+            <article class="stat-card">
+                <p>Available copies</p>
+                <h2 id="availableCopies">0</h2>
+                <span>Ready for borrowing</span>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CATALOGUE</p>
+                    <h2>Library books</h2>
+                </div>
+                <button id="showFormBtn" class="btn btn-primary" type="button">
+                    + Add a book
+                </button>
+            </div>
+
+            <form id="bookForm" class="book-form hidden">
+                <h3 id="formTitle">Add a new book</h3>
+                <input type="hidden" id="bookId" name="bookId">
+
+                <div class="form-grid">
+                    <label>Book title
+                        <input name="title" id="title" required maxlength="200">
+                    </label>
+                    <label>Author
+                        <input name="author" id="author" required maxlength="150">
+                    </label>
+                    <label>ISBN
+                        <input name="isbn" id="isbn" required maxlength="30">
+                    </label>
+                    <label>Category
+                        <input name="category" id="category" required maxlength="100">
+                    </label>
+                    <label>Total copies
+                        <input name="quantity" id="quantity" type="number"
+                               min="0" step="1" value="1" required>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="saveBtn" type="submit">
+                        Save book
+                    </button>
+                    <button class="btn btn-secondary" id="cancelBtn" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            <div class="search-row">
+                <input id="searchInput" type="search"
+                       placeholder="Search title, author, ISBN or category..."
+                       aria-label="Search books">
+                <button id="refreshBtn" class="btn btn-secondary" type="button">
+                    Refresh
+                </button>
+            </div>
+
+            <p id="message" class="message" role="status" aria-live="polite"></p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book details</th>
+                            <th>ISBN</th>
+                            <th>Category</th>
+                            <th>Available</th>
+                            <th>Availability</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                        <tr><td colspan="6" class="empty-state">Loading catalogue...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel module-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CIRCULATION</p>
+                    <h2>Issue a book</h2>
+                </div>
+            </div>
+
+            <form id="loanForm" class="book-form">
+                <div class="form-grid">
+                    <label>Select book
+                        <select id="loanBookId" name="bookId" required>
+                            <option value="">Loading books...</option>
+                        </select>
+                    </label>
+                    <label>Student name
+                        <input id="studentName" name="studentName" required
+                               maxlength="150" placeholder="Enter student name">
+                    </label>
+                    <label>Student ID
+                        <input id="studentId" name="studentId" required
+                               maxlength="50" placeholder="Enter student ID">
+                    </label>
+                    <label>Due date
+                        <input id="dueDate" name="dueDate" type="date" required>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button id="issueBtn" class="btn btn-primary" type="submit">
+                        Issue book
+                    </button>
+                </div>
+            </form>
+
+            <p id="loanMessage" class="message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel module-panel">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">BORROWING RECORDS</p>
+                    <h2>Loan history</h2>
+                </div>
+                <button id="refreshLoansBtn" class="btn btn-secondary" type="button">
+                    Refresh loans
+                </button>
+            </div>
+
+            <div class="search-row">
+                <input id="loanSearchInput" type="search"
+                       placeholder="Search student, ID or book..."
+                       aria-label="Search loan history">
+                <select id="loanStatusFilter" aria-label="Filter loans">
+                    <option value="All">All statuses</option>
+                    <option value="Issued">Issued</option>
+                    <option value="Returned">Returned</option>
+                    <option value="Overdue">Overdue</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Issue date</th>
+                            <th>Due date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loanTableBody">
+                        <tr><td colspan="7" class="empty-state">Loading loan history...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <p class="footer-note">
+            LibraDesk · Book catalogue and circulation management powered by MongoDB.
+        </p>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
